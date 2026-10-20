@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SheSafeDrive — Rides built around you</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --midnight:#3D0E6B;
+    --dusk:#E91E8C;
+    --amber:#FFD23F;
+    --blush:#FFE3F0;
+    --cream:#FFFDF8;
+    --charcoal:#241334;
+    --line: rgba(255,255,255,0.18);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Plus Jakarta Sans', sans-serif;
+    background:var(--cream);
+    color:var(--charcoal);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Fraunces', serif; font-weight:600; letter-spacing:-0.01em;}
+  a{text-decoration:none; color:inherit;}
+  .mono{font-family:'JetBrains Mono', monospace; letter-spacing:0.03em;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(251,248,245,0.88);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(34,31,44,0.08);
+  }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 32px; max-width:1180px; margin:0 auto;
+  }
+  .brand{display:flex; align-items:center; gap:10px; font-family:'Fraunces',serif; font-weight:700; font-size:1.25rem;}
+  .logo-mark{flex-shrink:0;}
+  .fbrand{display:flex; align-items:center; gap:10px;}
+  .navlinks{display:flex; gap:32px; font-size:0.95rem; font-weight:500;}
+  .navlinks a{opacity:0.75; transition:opacity .2s;}
+  .navlinks a:hover{opacity:1;}
+  .cta-btn{
+    background:var(--midnight); color:var(--cream);
+    padding:11px 22px; border-radius:100px; font-weight:600; font-size:0.9rem;
+    transition:transform .2s, background .2s;
+    display:inline-block;
+  }
+  .cta-btn:hover{background:var(--dusk); transform:translateY(-1px);}
+  .cta-btn:focus-visible, a:focus-visible, button:focus-visible{outline:3px solid var(--amber); outline-offset:3px; border-radius:6px;}
+  @media (max-width:780px){
+    .navlinks{display:none;}
+    .menu-btn{display:flex;}
+  }
+  .menu-btn{
+    display:none; width:40px; height:40px; border-radius:10px; background:none; border:1.5px solid rgba(34,31,44,0.15);
+    align-items:center; justify-content:center; flex-direction:column; gap:4px; cursor:pointer;
+  }
+  .menu-btn span{width:18px; height:2px; background:var(--charcoal); display:block; transition:transform .2s, opacity .2s;}
+  .mobile-panel{
+    display:none; flex-direction:column; gap:2px;
+    background:var(--cream); border-bottom:1px solid rgba(34,31,44,0.08);
+    padding:8px 20px 18px;
+  }
+  .mobile-panel.open{display:flex;}
+  .mobile-panel a{padding:12px 4px; font-weight:600; border-bottom:1px solid rgba(34,31,44,0.06);}
+  .mobile-panel .cta-btn{margin-top:10px; text-align:center;}
+
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr; gap:48px;}
+    .hero{padding:60px 22px 80px;}
+    .trip-card{max-width:420px;}
+  }
+  @media (max-width:600px){
+    .wrap{padding:0 20px;}
+    nav{padding:14px 20px;}
+    section{padding:64px 20px;}
+    .hero{padding:48px 20px 64px;}
+    nav > a.cta-btn{display:none;}
+    .hero-ctas{flex-direction:column; align-items:stretch;}
+    .hero-ctas a{text-align:center;}
+    .trust-strip .wrap{flex-direction:column; gap:10px; text-align:center;}
+    .section-head{margin-bottom:40px;}
+    .vet-section .wrap{gap:40px;}
+    .vet-visual{padding:26px;}
+    footer .wrap{flex-direction:column; gap:32px;}
+    footer .cols{gap:32px;}
+    .store-row{flex-direction:column; align-items:center;}
+    .store-row a{width:100%; max-width:280px; text-align:center;}
+    .final-cta{padding:70px 20px;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:linear-gradient(160deg, var(--midnight) 0%, var(--dusk) 100%);
+    color:var(--cream);
+    padding:90px 32px 120px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.5) 1px, transparent 1.5px);
+    background-size: 26px 26px;
+    opacity:0.06;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:60px; align-items:center;
+    position:relative; z-index:1;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:0.8rem; font-weight:600; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--amber); margin-bottom:22px;
+  }
+  .eyebrow::before{content:"●"; font-size:0.6rem; animation:pulse 2.2s infinite;}
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+  .hero h1{
+    font-size:clamp(2.4rem, 4.4vw, 3.6rem);
+    line-height:1.08;
+    margin-bottom:24px;
+  }
+  .hero h1 em{font-style:italic; color:var(--amber);}
+  .hero p.lede{
+    font-size:1.15rem; opacity:0.82; max-width:480px; margin-bottom:36px;
+  }
+  .hero-ctas{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--amber); color:var(--midnight); font-weight:700;
+    padding:15px 28px; border-radius:100px; font-size:0.98rem;
+    transition:transform .2s, box-shadow .2s;
+    display:inline-block;
+  }
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(255,179,71,0.3);}
+  .btn-ghost{
+    border:1.5px solid rgba(251,248,245,0.35); color:var(--cream);
+    padding:15px 28px; border-radius:100px; font-weight:600; font-size:0.98rem;
+    transition:border-color .2s, background .2s;
+  }
+  .btn-ghost:hover{border-color:var(--cream); background:rgba(255,255,255,0.06);}
+
+  /* trip card mockup — the signature element */
+  .trip-card{
+    background:rgba(27,26,53,0.6);
+    border:1px solid rgba(255,255,255,0.16);
+    border-radius:22px;
+    padding:26px;
+    backdrop-filter:blur(6px);
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.5);
+  }
+  .trip-top{display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;}
+  .verified-pill{
+    display:flex; align-items:center; gap:6px;
+    background:rgba(255,179,71,0.14); color:var(--amber);
+    font-size:0.72rem; font-weight:700; letter-spacing:0.04em; text-transform:uppercase;
+    padding:6px 12px; border-radius:100px;
+  }
+  .trip-eta{font-family:'JetBrains Mono',monospace; font-size:0.8rem; opacity:0.65;}
+  .route{position:relative; padding-left:28px; margin:22px 0;}
+  .route-pt{position:relative; padding:10px 0 26px;}
+  .route-pt:last-child{padding-bottom:0;}
+  .route-pt::before{
+    content:""; position:absolute; left:-28px; top:14px;
+    width:11px; height:11px; border-radius:50%;
+    background:var(--amber); box-shadow:0 0 0 4px rgba(255,179,71,0.18);
+  }
+  .route-pt.end::before{background:var(--cream); box-shadow:0 0 0 4px rgba(251,248,245,0.18);}
+  .route::after{
+    content:""; position:absolute; left:-23px; top:18px; bottom:18px; width:2px;
+    background:repeating-linear-gradient(to bottom, var(--amber) 0 6px, transparent 6px 12px);
+  }
+  .route-pt .label{font-size:0.7rem; text-transform:uppercase; letter-spacing:0.06em; opacity:0.55; margin-bottom:3px;}
+  .route-pt .place{font-weight:600; font-size:0.98rem;}
+  .trip-footer{
+    display:flex; justify-content:space-between; align-items:center;
+    border-top:1px solid rgba(255,255,255,0.1); padding-top:16px; margin-top:8px;
+  }
+  .share-row{display:flex; align-items:center; gap:8px; font-size:0.82rem; opacity:0.8;}
+  .avatar-stack{display:flex;}
+  .avatar-stack span{
+    width:24px; height:24px; border-radius:50%; background:var(--dusk);
+    border:2px solid var(--midnight); margin-left:-8px; font-size:0.6rem;
+    display:flex; align-items:center; justify-content:center; font-weight:700;
+  }
+  .avatar-stack span:first-child{margin-left:0;}
+
+  /* ---------- TRUST STRIP ---------- */
+  .trust-strip{
+    background:var(--midnight); color:var(--cream); padding:18px 32px;
+    border-top:1px solid var(--line);
+  }
+  .trust-strip .wrap{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:18px;
+    font-size:0.85rem; opacity:0.7; font-weight:500;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:100px 32px;}
+  .section-head{max-width:620px; margin-bottom:64px;}
+  .section-head .eyebrow{color:var(--dusk);}
+  .section-head .eyebrow::before{color:var(--dusk);}
+  .section-head h2{font-size:clamp(1.9rem,3vw,2.6rem); margin-bottom:14px;}
+  .section-head p{opacity:0.7; font-size:1.05rem; max-width:520px;}
+
+  /* how it works */
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:36px;}
+  .step{
+    border-top:2px solid var(--charcoal); padding-top:22px; position:relative;
+  }
+  .step .num{
+    font-family:'JetBrains Mono',monospace; font-size:0.85rem; color:var(--dusk); font-weight:600;
+    display:block; margin-bottom:14px;
+  }
+  .step h3{font-size:1.3rem; margin-bottom:10px;}
+  .step p{opacity:0.68; font-size:0.95rem;}
+
+  /* safety grid */
+  .safety-section{background:var(--blush);}
+  .safety-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(34,31,44,0.1); border-radius:18px; overflow:hidden;}
+  .safety-card{
+    background:var(--blush); padding:34px 28px; transition:background .25s;
+  }
+  .safety-card:hover{background:#fff;}
+  .safety-card .icon{
+    width:42px; height:42px; border-radius:12px; background:var(--midnight);
+    display:flex; align-items:center; justify-content:center; margin-bottom:18px;
+    color:var(--amber); font-size:1.15rem;
+  }
+  .safety-card h3{font-size:1.05rem; margin-bottom:8px; font-family:'Plus Jakarta Sans',sans-serif; font-weight:700;}
+  .safety-card p{font-size:0.88rem; opacity:0.68;}
+  @media (max-width:980px){ .safety-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:600px){ .safety-grid{grid-template-columns:1fr;} .steps{grid-template-columns:1fr;} }
+
+  /* driver vetting */
+  .vet-section .wrap{display:grid; grid-template-columns:0.9fr 1.1fr; gap:70px; align-items:center;}
+  .vet-list{margin-top:28px; display:flex; flex-direction:column; gap:18px;}
+  .vet-item{display:flex; gap:16px; align-items:flex-start;}
+  .vet-check{
+    width:26px; height:26px; border-radius:50%; background:var(--midnight); color:var(--amber);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:0.8rem; margin-top:2px;
+  }
+  .vet-item h4{font-size:1.02rem; margin-bottom:3px;}
+  .vet-item p{font-size:0.9rem; opacity:0.65;}
+  .vet-visual{
+    background:var(--midnight); border-radius:22px; padding:40px; color:var(--cream);
+    position:relative; overflow:hidden;
+  }
+  .driver-card{background:rgba(255,255,255,0.06); border:1px solid var(--line); border-radius:16px; padding:22px; margin-bottom:14px;}
+  .driver-card .row{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;}
+  .driver-card .rating{color:var(--amber); font-family:'JetBrains Mono',monospace; font-size:0.85rem;}
+  .driver-card .bar-bg{height:5px; background:rgba(255,255,255,0.12); border-radius:4px; overflow:hidden;}
+  .driver-card .bar{height:100%; background:var(--amber); border-radius:4px;}
+  @media (max-width:900px){ .vet-section .wrap{grid-template-columns:1fr;} }
+
+  /* testimonials */
+  .testimonials{background:var(--midnight); color:var(--cream);}
+  .testimonials .section-head .eyebrow, .testimonials .section-head .eyebrow::before{color:var(--amber);}
+  .testimonials .section-head p{opacity:0.6;}
+  .quote-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:28px;}
+  .quote-card{
+    background:rgba(255,255,255,0.05); border:1px solid var(--line); border-radius:18px; padding:30px;
+  }
+  .quote-card p.quote{font-family:'Fraunces',serif; font-size:1.08rem; font-style:italic; line-height:1.5; margin-bottom:20px;}
+  .quote-who{display:flex; align-items:center; gap:10px; font-size:0.85rem; opacity:0.7;}
+  .quote-who .av{width:34px; height:34px; border-radius:50%; background:var(--dusk); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.8rem;}
+  @media (max-width:900px){ .quote-grid{grid-template-columns:1fr;} }
+
+  /* final cta */
+  .final-cta{
+    background:linear-gradient(135deg, var(--dusk), var(--midnight));
+    color:var(--cream); text-align:center; padding:110px 32px;
+  }
+  .final-cta h2{font-size:clamp(2rem,4vw,3rem); margin-bottom:18px;}
+  .final-cta p{opacity:0.75; max-width:480px; margin:0 auto 36px; font-size:1.05rem;}
+  .store-row{display:flex; justify-content:center; gap:14px; flex-wrap:wrap;}
+
+  footer{background:var(--charcoal); color:rgba(251,248,245,0.6); padding:48px 32px 32px; font-size:0.85rem;}
+  footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:24px;}
+  footer .fbrand{color:var(--cream); font-family:'Fraunces',serif; font-weight:700; font-size:1.1rem; margin-bottom:8px;}
+  footer .cols{display:flex; gap:48px; flex-wrap:wrap;}
+  footer .col h5{color:rgba(251,248,245,0.85); font-size:0.8rem; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:14px;}
+  footer .col a{display:block; margin-bottom:9px; opacity:0.75;}
+  footer .col a:hover{opacity:1;}
+  .bottom-line{border-top:1px solid rgba(255,255,255,0.08); margin-top:40px; padding-top:20px; font-size:0.78rem; opacity:0.5;}
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="brand">
+      <svg class="logo-mark" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SheSafeDrive shield logo">
+        <path d="M15 1.5L26.5 5.8V14.6C26.5 21.7 21.6 26.6 15 28.5C8.4 26.6 3.5 21.7 3.5 14.6V5.8L15 1.5Z" fill="var(--midnight)"/>
+        <path d="M15 1.5L26.5 5.8V14.6C26.5 21.7 21.6 26.6 15 28.5V1.5Z" fill="var(--dusk)"/>
+        <circle cx="15" cy="13.2" r="3.6" fill="var(--amber)"/>
+        <path d="M15 22.8C15 22.8 19.8 18.4 19.8 13.5C19.8 10.8 17.6 8.7 15 8.7C12.4 8.7 10.2 10.8 10.2 13.5C10.2 18.4 15 22.8 15 22.8Z" fill="none" stroke="var(--cream)" stroke-width="1.4" stroke-linejoin="round"/>
+      </svg>
+      SheSafeDrive
+    </div>
+    <div class="navlinks">
+      <a href="#how">How it works</a>
+      <a href="#safety">Safety</a>
+      <a href="#drivers">Drivers</a>
+      <a href="#stories">Stories</a>
+      <a href="about.html">About</a>
+    </div>
+    <a href="#get" class="cta-btn">Get the app</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobilePanel">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="mobile-panel" id="mobilePanel">
+    <a href="#how">How it works</a>
+    <a href="#safety">Safety</a>
+    <a href="#drivers">Drivers</a>
+    <a href="#stories">Stories</a>
+    <a href="about.html">About</a>
+    <a href="#get" class="cta-btn">Get the app</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Live since 2024 · Lagos &amp; growing</span>
+      <h1>A ride that <em>watches out</em><br>for you, end to end.</h1>
+      <p class="lede">SheSafeDrive is a ride-hailing service built around women's safety — verified women drivers, live trip-sharing, and a route that's tracked from the moment you book to the second you're home.</p>
+      <div class="hero-ctas">
+        <a href="#get" class="btn-primary">Book your first ride</a>
+        <a href="#drivers" class="btn-ghost">Become a driver</a>
+      </div>
+    </div>
+    <div class="trip-card" role="img" aria-label="Sample trip tracker showing a verified driver, route from Lekki Phase 1 to Victoria Island, and trip shared with two contacts">
+      <div class="trip-top">
+        <span class="verified-pill">✓ Verified driver</span>
+        <span class="trip-eta mono">ETA 12 min</span>
+      </div>
+      <div class="route">
+        <div class="route-pt">
+          <div class="label">Pickup</div>
+          <div class="place">Lekki Phase 1, Gate 3</div>
+        </div>
+        <div class="route-pt end">
+          <div class="label">Drop-off</div>
+          <div class="place">Victoria Island</div>
+        </div>
+      </div>
+      <div class="trip-footer">
+        <div class="share-row">
+          <div class="avatar-stack"><span>M</span><span>T</span></div>
+          Trip shared live with 2
+        </div>
+        <span class="mono" style="opacity:.6; font-size:.78rem;">#SSD-2291</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust-strip">
+  <div class="wrap">
+    <span>100% women drivers, background-checked</span>
+    <span>Live GPS shared on every trip</span>
+    <span>24/7 in-app emergency line</span>
+    <span>Driver-side passenger rating too</span>
+  </div>
+</div>
+
+<section id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">How it works</span>
+      <h2>Three steps, every one of them watched.</h2>
+      <p>Booking a ride is simple. What's different is everything running quietly underneath it.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <span class="num mono">01</span>
+        <h3>Set your route</h3>
+        <p>Enter pickup and drop-off. We show you your driver's name, photo, plate, and safety rating before you confirm.</p>
+      </div>
+      <div class="step">
+        <span class="num mono">02</span>
+        <h3>Share your trip</h3>
+        <p>One tap sends a live map link to anyone you choose — they see your route and ETA update in real time, no app needed.</p>
+      </div>
+      <div class="step">
+        <span class="num mono">03</span>
+        <h3>Arrive, confirmed</h3>
+        <p>We check the trip ended at the right place. If a route drifts or stops moving, our safety line reaches out first.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="safety" class="safety-section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Built-in safety</span>
+      <h2>Safety you can feel in the small details.</h2>
+      <p>Not a single feature — a set of defaults that are on by default, not buried in a settings menu.</p>
+    </div>
+    <div class="safety-grid">
+      <div class="safety-card">
+        <div class="icon">●</div>
+        <h3>Live trip tracking</h3>
+        <p>Every ride is GPS-tracked from pickup to drop-off, visible to you and anyone you've shared it with.</p>
+      </div>
+      <div class="safety-card">
+        <div class="icon">✓</div>
+        <h3>Verified women drivers</h3>
+        <p>Every driver passes an ID check, address verification, and an in-person interview before their first trip.</p>
+      </div>
+      <div class="safety-card">
+        <div class="icon">!</div>
+        <h3>One-tap emergency line</h3>
+        <p>A direct line to our safety team, staffed around the clock, reachable from inside any active trip.</p>
+      </div>
+      <div class="safety-card">
+        <div class="icon">★</div>
+        <h3>Two-way ratings</h3>
+        <p>Drivers rate passengers too, so trust runs in both directions, not just one.</p>
+      </div>
+      <div class="safety-card">
+        <div class="icon">▢</div>
+        <h3>Route-deviation alerts</h3>
+        <p>If a trip strays far from its expected path or stalls unexpectedly, we flag it and reach out.</p>
+      </div>
+      <div class="safety-card">
+        <div class="icon">◐</div>
+        <h3>Night-ride mode</h3>
+        <p>After dark, trips default to extra check-ins and a shorter response window from our safety team.</p>
+      </div>
+      <div class="safety-card">
+        <div class="icon">⌁</div>
+        <h3>In-app trip recording</h3>
+        <p>Audio recording can be started from the trip screen at any point, stored securely if it's ever needed.</p>
+      </div>
+      <div class="safety-card">
+        <div class="icon">♀</div>
+        <h3>Women-only option</h3>
+        <p>Choose to be matched exclusively with women drivers and riders on every trip, every time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="drivers" class="vet-section">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow" style="color:var(--dusk);">●&nbsp; The driver side</span>
+      <h2 style="font-size:clamp(1.9rem,3vw,2.5rem); margin-bottom:0;">Every driver earns her badge.</h2>
+      <div class="vet-list">
+        <div class="vet-item">
+          <div class="vet-check">✓</div>
+          <div><h4>Identity &amp; address verification</h4><p>Government ID, proof of address, and a face match before approval.</p></div>
+        </div>
+        <div class="vet-item">
+          <div class="vet-check">✓</div>
+          <div><h4>In-person interview</h4><p>A real conversation with our team — not just a form submitted online.</p></div>
+        </div>
+        <div class="vet-item">
+          <div class="vet-check">✓</div>
+          <div><h4>Vehicle inspection</h4><p>Roadworthiness, insurance, and registration checked before the car goes live.</p></div>
+        </div>
+        <div class="vet-item">
+          <div class="vet-check">✓</div>
+          <div><h4>Ongoing rating review</h4><p>Driver scores are reviewed continuously, not just at sign-up.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="vet-visual">
+      <div class="driver-card">
+        <div class="row"><span>Background check</span><span class="rating">PASSED</span></div>
+        <div class="bar-bg"><div class="bar" style="width:100%"></div></div>
+      </div>
+      <div class="driver-card">
+        <div class="row"><span>Passenger rating</span><span class="rating">4.92 / 5</span></div>
+        <div class="bar-bg"><div class="bar" style="width:98%"></div></div>
+      </div>
+      <div class="driver-card">
+        <div class="row"><span>Vehicle inspection</span><span class="rating">CURRENT</span></div>
+        <div class="bar-bg"><div class="bar" style="width:100%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="stories" class="testimonials">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">●&nbsp; Riders &amp; drivers</span>
+      <h2>What it actually feels like.</h2>
+    </div>
+    <div class="quote-grid">
+      <div class="quote-card">
+        <p class="quote">"I shared my trip link with my sister and she watched the whole ride home with me on a call. Made the late shift feel a lot less scary."</p>
+        <div class="quote-who"><div class="av">A</div> Amaka, rider · Lagos</div>
+      </div>
+      <div class="quote-card">
+        <p class="quote">"Driving for SheSafeDrive is the first time I've felt like a platform actually checked who was getting in my car too."</p>
+        <div class="quote-who"><div class="av">F</div> Funke, driver · 2 years</div>
+      </div>
+      <div class="quote-card">
+        <p class="quote">"The night-mode check-ins sound small until 1am hits and someone actually texts to ask if you're okay."</p>
+        <div class="quote-who"><div class="av">B</div> Bisi, rider · Lagos</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="get" class="final-cta">
+  <h2>Your next ride, watched the whole way.</h2>
+  <p>Download SheSafeDrive and book your first trip in under a minute.</p>
+  <div class="store-row">
+    <a href="download.html" class="btn-primary">Download for iOS</a>
+    <a href="download.html" class="btn-ghost">Download for Android</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="fbrand">
+        <svg width="22" height="22" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SheSafeDrive shield logo">
+          <path d="M15 1.5L26.5 5.8V14.6C26.5 21.7 21.6 26.6 15 28.5C8.4 26.6 3.5 21.7 3.5 14.6V5.8L15 1.5Z" fill="var(--dusk)"/>
+          <circle cx="15" cy="13.2" r="3.6" fill="var(--amber)"/>
+          <path d="M15 22.8C15 22.8 19.8 18.4 19.8 13.5C19.8 10.8 17.6 8.7 15 8.7C12.4 8.7 10.2 10.8 10.2 13.5C10.2 18.4 15 22.8 15 22.8Z" fill="none" stroke="var(--cream)" stroke-width="1.4" stroke-linejoin="round"/>
+        </svg>
+        SheSafeDrive
+      </div>
+      <p style="max-width:240px; opacity:.7;">Rides built around women's safety, in Lagos and beyond.</p>
+    </div>
+    <div class="cols">
+      <div class="col">
+        <h5>Company</h5>
+        <a href="about.html">About</a>
+        <a href="careers.html">Careers</a>
+        <a href="press.html">Press</a>
+      </div>
+      <div class="col">
+        <h5>Riders</h5>
+        <a href="#safety">Safety</a>
+        <a href="#get">Pricing</a>
+        <a href="mailto:help@shesafedrive.com">Help</a>
+      </div>
+      <div class="col">
+        <h5>Drivers</h5>
+        <a href="#drivers">Apply</a>
+        <a href="#drivers">Requirements</a>
+        <a href="#drivers">Earnings</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap bottom-line">
+    © 2026 SheSafeDrive. All rights reserved.
+  </div>
+</footer>
+
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const panel = document.getElementById('mobilePanel');
+  menuBtn.addEventListener('click', () => {
+    const open = panel.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  panel.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    panel.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }));
+</script>
+</body>
+</html>

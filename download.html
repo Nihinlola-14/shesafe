@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Download the app — SheSafeDrive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --midnight:#3D0E6B; --dusk:#E91E8C; --amber:#FFD23F;
+    --blush:#FFE3F0; --cream:#FFFDF8; --charcoal:#241334;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:'Plus Jakarta Sans',sans-serif; background:var(--cream); color:var(--charcoal); line-height:1.5;}
+  a{text-decoration:none; color:inherit;}
+  a:focus-visible, button:focus-visible{outline:3px solid var(--amber); outline-offset:3px; border-radius:6px;}
+
+  header{position:sticky; top:0; z-index:50; background:rgba(255,253,248,0.9); backdrop-filter:blur(10px); border-bottom:1px solid rgba(34,31,44,0.08);}
+  nav{display:flex; align-items:center; justify-content:space-between; padding:18px 32px; max-width:1180px; margin:0 auto;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:'Fraunces',serif; font-weight:700; font-size:1.2rem;}
+  .navlinks{display:flex; gap:32px; font-size:0.95rem; font-weight:500;}
+  .navlinks a{opacity:0.75; transition:opacity .2s;}
+  .navlinks a:hover{opacity:1;}
+  .cta-btn{background:var(--midnight); color:var(--cream); padding:11px 22px; border-radius:100px; font-weight:600; font-size:0.9rem; display:inline-block; transition:background .2s, transform .2s;}
+  .cta-btn:hover{background:var(--dusk); transform:translateY(-1px);}
+  @media (max-width:780px){ .navlinks{display:none;} .menu-btn{display:flex;} }
+  .menu-btn{display:none; width:40px; height:40px; border-radius:10px; background:none; border:1.5px solid rgba(34,31,44,0.15); align-items:center; justify-content:center; flex-direction:column; gap:4px; cursor:pointer;}
+  .menu-btn span{width:18px; height:2px; background:var(--charcoal); display:block;}
+  .mobile-panel{display:none; flex-direction:column; gap:2px; background:var(--cream); border-bottom:1px solid rgba(34,31,44,0.08); padding:8px 20px 18px;}
+  .mobile-panel.open{display:flex;}
+  .mobile-panel a{padding:12px 4px; font-weight:600; border-bottom:1px solid rgba(34,31,44,0.06);}
+  .mobile-panel .cta-btn{margin-top:10px; text-align:center;}
+
+  main{min-height:64vh; display:flex; align-items:center; justify-content:center; text-align:center; padding:70px 24px;}
+  .panel{max-width:520px;}
+  .eyebrow{font-size:0.78rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--dusk); margin-bottom:16px; display:block;}
+  h1{font-family:'Fraunces',serif; font-size:2.3rem; margin-bottom:14px; line-height:1.2;}
+  p{opacity:0.7; margin-bottom:28px; font-size:1.02rem;}
+  .btn{background:var(--midnight); color:var(--cream); padding:13px 26px; border-radius:100px; font-weight:600; display:inline-block;}
+  .btn:hover{background:var(--dusk);}
+
+  footer{background:var(--charcoal); color:rgba(255,253,248,0.6); padding:48px 32px 32px; font-size:0.85rem;}
+  footer .wrap{max-width:1180px; margin:0 auto; display:flex; justify-content:space-between; flex-wrap:wrap; gap:24px;}
+  footer .fbrand{display:flex; align-items:center; gap:10px; color:var(--cream); font-family:'Fraunces',serif; font-weight:700; font-size:1.1rem; margin-bottom:8px;}
+  footer .cols{display:flex; gap:48px; flex-wrap:wrap;}
+  footer .col h5{color:rgba(255,253,248,0.85); font-size:0.8rem; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:14px;}
+  footer .col a{display:block; margin-bottom:9px; opacity:0.75;}
+  footer .col a:hover{opacity:1;}
+  .bottom-line{max-width:1180px; margin:40px auto 0; border-top:1px solid rgba(255,255,255,0.08); padding-top:20px; font-size:0.78rem; opacity:0.5;}
+
+  @media (max-width:600px){
+    nav{padding:14px 20px;}
+    nav > a.cta-btn{display:none;}
+    footer .wrap{flex-direction:column; gap:32px;}
+    footer .cols{gap:32px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="index.html" class="brand">
+      <svg width="28" height="28" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SheSafeDrive shield logo">
+        <path d="M15 1.5L26.5 5.8V14.6C26.5 21.7 21.6 26.6 15 28.5C8.4 26.6 3.5 21.7 3.5 14.6V5.8L15 1.5Z" fill="var(--midnight)"/>
+        <path d="M15 1.5L26.5 5.8V14.6C26.5 21.7 21.6 26.6 15 28.5V1.5Z" fill="var(--dusk)"/>
+        <circle cx="15" cy="13.2" r="3.6" fill="var(--amber)"/>
+        <path d="M15 22.8C15 22.8 19.8 18.4 19.8 13.5C19.8 10.8 17.6 8.7 15 8.7C12.4 8.7 10.2 10.8 10.2 13.5C10.2 18.4 15 22.8 15 22.8Z" fill="none" stroke="var(--cream)" stroke-width="1.4" stroke-linejoin="round"/>
+      </svg>
+      SheSafeDrive
+    </a>
+    <div class="navlinks">
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#safety">Safety</a>
+      <a href="index.html#drivers">Drivers</a>
+      <a href="about.html">About</a>
+    </div>
+    <a href="index.html#get" class="cta-btn">Get the app</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobilePanel">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="mobile-panel" id="mobilePanel">
+    <a href="index.html#how">How it works</a>
+    <a href="index.html#safety">Safety</a>
+    <a href="index.html#drivers">Drivers</a>
+    <a href="about.html">About</a>
+    <a href="index.html#get" class="cta-btn">Get the app</a>
+  </div>
+</header>
+
+<main>
+  <div class="panel">
+    <span class="eyebrow">Get the app</span>
+    <h1>The app isn't live yet, but it's coming.</h1>
+    <p>SheSafeDrive is still in development. Leave your email on our waitlist and we'll let you know the moment it's ready to download.</p>
+    <a href="index.html" class="btn">Back to home</a>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="fbrand">
+        <svg width="22" height="22" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SheSafeDrive shield logo">
+          <path d="M15 1.5L26.5 5.8V14.6C26.5 21.7 21.6 26.6 15 28.5C8.4 26.6 3.5 21.7 3.5 14.6V5.8L15 1.5Z" fill="var(--dusk)"/>
+          <circle cx="15" cy="13.2" r="3.6" fill="var(--amber)"/>
+          <path d="M15 22.8C15 22.8 19.8 18.4 19.8 13.5C19.8 10.8 17.6 8.7 15 8.7C12.4 8.7 10.2 10.8 10.2 13.5C10.2 18.4 15 22.8 15 22.8Z" fill="none" stroke="var(--cream)" stroke-width="1.4" stroke-linejoin="round"/>
+        </svg>
+        SheSafeDrive
+      </div>
+      <p style="max-width:240px; opacity:.7;">Rides built around women's safety, in Lagos and beyond.</p>
+    </div>
+    <div class="cols">
+      <div class="col">
+        <h5>Company</h5>
+        <a href="about.html">About</a>
+        <a href="careers.html">Careers</a>
+        <a href="press.html">Press</a>
+      </div>
+      <div class="col">
+        <h5>Riders</h5>
+        <a href="index.html#safety">Safety</a>
+        <a href="index.html#get">Pricing</a>
+        <a href="mailto:help@shesafedrive.com">Help</a>
+      </div>
+      <div class="col">
+        <h5>Drivers</h5>
+        <a href="index.html#drivers">Apply</a>
+        <a href="index.html#drivers">Requirements</a>
+        <a href="index.html#drivers">Earnings</a>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-line">© 2026 SheSafeDrive. All rights reserved.</div>
+</footer>
+
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const panel = document.getElementById('mobilePanel');
+  menuBtn.addEventListener('click', () => {
+    const open = panel.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  panel.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    panel.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }));
+</script>
+</body>
+</html>
